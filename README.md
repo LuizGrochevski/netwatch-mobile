@@ -1,50 +1,66 @@
-# Welcome to your Expo app 👋
+# Netwatch Mobile 📱🛡️
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+![Expo](https://img.shields.io/badge/Expo-React%20Native-000020?style=for-the-badge&logo=expo&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-## Get started
+Cliente mobile da **[Netwatch-API](https://github.com/LuizGrochevski/netwatch-api)** — app Expo/React Native para autenticar via JWT, visualizar histórico de scans e acompanhar resultados do **[Sentinel-RS](https://github.com/LuizGrochevski/Sentinel-RS)** no celular.
 
-1. Install dependencies
+Faz parte do ecossistema Netwatch:
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+Sentinel-RS (scan) → netwatch-api (orquestra) → netwatch-dashboard (web)
+                                              → netwatch-mobile (app)
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## 🚀 Funcionalidades
 
-To learn more about developing your project with Expo, look at the following resources:
+- 🔐 Login JWT contra a Netwatch-API
+- 📋 Histórico de scans
+- 📱 Telas de autenticação e listagem
+- 🔒 Token persistido localmente
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
+## 🛠️ Stack
 
-Join our community of developers creating universal apps.
+| Camada | Tecnologia |
+|---|---|
+| Framework | Expo / React Native |
+| Linguagem | JavaScript / TypeScript |
+| API | Netwatch-API (FastAPI + JWT) |
+| Storage | Token local |
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
+
+## ⚙️ Como rodar
+
+```bash
+npm install
+npx expo start
+```
+
+Configure a URL da Netwatch-API no client (`src/api/netwatchClient.js`).
+
+---
+
+## 📁 Estrutura
+
+```
+netwatch-mobile/
+├── app/                 # entry Expo
+├── src/
+│   ├── api/             # client HTTP + JWT
+│   ├── screens/         # Login, History
+│   └── storage/         # token
+├── components/
+└── package.json
+```
+
+---
+
+## 👨‍💻 Autor
+
+**Luiz Felipe Grochevski** — [LinkedIn](https://www.linkedin.com/in/luiz-felipe-grochevski) | [GitHub](https://github.com/LuizGrochevski)
