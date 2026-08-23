@@ -1,15 +1,15 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import * as SecureStore from 'expo-secure-store'
 
-const TOKEN_KEY = '@netwatch_token'
+const TOKEN_KEY = 'netwatch_token'
 
 export async function saveToken(token) {
-    await AsyncStorage.setItem(TOKEN_KEY, token)
+  await SecureStore.setItemAsync(TOKEN_KEY, token)
 }
 
 export async function getToken() {
-    return await AsyncStorage.getItem(TOKEN_KEY)
+  return await SecureStore.getItemAsync(TOKEN_KEY)
 }
 
 export async function removeToken() {
-    await AsyncStorage.removeItem(TOKEN_KEY)
+  await SecureStore.deleteItemAsync(TOKEN_KEY)
 }
