@@ -4,11 +4,13 @@ async function request(path, options = {}) {
   let res
   try {
     res = await fetch(`${API}${path}`, options)
-  } catch {
+  } catch (err) {
+    console.error('[netwatch] network error', path, err)
     throw new Error('Sem conexão com a API')
   }
 
   if (res.status === 401) {
+    console.error('[netwatch] 401 unauthorized', path)
     throw new Error('Sessão expirada. Faça login novamente.')
   }
 
@@ -18,6 +20,7 @@ async function request(path, options = {}) {
       body?.detail ||
       body?.message ||
       `Erro ${res.status}`
+    console.error('[netwatch] api error', path, res.status, msg)
     throw new Error(typeof msg === 'string' ? msg : JSON.stringify(msg))
   }
 
