@@ -2,7 +2,6 @@ import { useEffect, useState, useCallback } from 'react'
 import {
   View,
   Text,
-  FlatList,
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
@@ -12,6 +11,7 @@ import {
 } from 'react-native'
 import { fetchHistory, fetchScanDetail, fetchScanCves } from '../api/netwatchClient'
 import HostCard from '../../components/HostCard'
+import NewScanScreen from './NewScanScreen'
 import { relativeTime } from '../utils'
 
 type ScanItem = {
@@ -30,6 +30,7 @@ const CORES = {
   bgVoid: '#0a0e0f',
   bgPanel: '#111618',
   line: '#1f292d',
+  lineBright: '#2f3e44',
   textPrimary: '#ffffff',
   textSecondary: '#7f8c8d',
   textDim: '#4a5558',
@@ -46,6 +47,7 @@ export default function HistoryScreen({ token, onLogout }: Props) {
   const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState('')
   const [selectedId, setSelectedId] = useState<number | null>(null)
+  const [showNewScan, setShowNewScan] = useState(false)
 
   const load = useCallback(async () => {
     try {
@@ -122,13 +124,17 @@ export default function HistoryScreen({ token, onLogout }: Props) {
           <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} tintColor={CORES.signalUp} />
         }
       >
-        {/* Targets do scan selecionado */}
-        <Text style={styles.sectionTitle}>
-          targets detectados ({results.length})
-        </Text>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>
+            targets detectados ({results.length})
+          </Text>
+          <TouchableOpacity style={styles.newBtn} onPress={() => setShowNewScan(true)}>
+            <Text style={styles.newBtnText}>+ novo scan</Text>
+          </TouchableOpacity>
+        </View>
 
         {results.length === 0 && (
-          <Text style={styles.empty}>Nenhum scan ainda.</Text>
+          <Text style={styles.empty}>Nenhum scan ainda. Use "+ novo scan" para começar.</Text>
         )}
 
         {results.map((result: any) => (
@@ -140,7 +146,6 @@ export default function HistoryScreen({ token, onLogout }: Props) {
           />
         ))}
 
-        {/* Histórico */}
         {items.length > 0 && (
           <>
             <Text style={[styles.sectionTitle, { marginTop: 20 }]}>
@@ -179,6 +184,13 @@ export default function HistoryScreen({ token, onLogout }: Props) {
           </>
         )}
       </ScrollView>
+
+      <NewScanScreen
+        token={token}
+        visible={showNewScan}
+        onClose={() => setShowNewScan(false)}
+        onScanComplete={load}
+      />
     </View>
   )
 }
@@ -218,13 +230,32 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace',
   },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
   sectionTitle: {
     fontSize: 12,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
     color: CORES.textSecondary,
-    marginBottom: 12,
     fontWeight: '500',
+  },
+  newBtn: {
+    backgroundColor: CORES.bgPanel,
+    borderWidth: 1,
+    borderColor: CORES.lineBright,
+    borderRadius: CORES.radius,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+  },
+  newBtnText: {
+    color: CORES.signalUp,
+    fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace',
+    fontSize: 12,
+    fontWeight: '600',
   },
   error: {
     color: '#ff4d4d',
